@@ -16,6 +16,14 @@ namespace AeroOptimizer
 		*/
 		static void AddVectors(double* left, double* right, double* result, int n);
 		/*
+		* result = left x right, computes cartesian 3D the cross product of the left and right vector.
+		*
+		* @param left, the array of length 3 representing the left vector.
+		* @param right, the array of length 3 representing the right vector.
+		* @param result, the array of length 3 where the results will get written.
+		*/
+		static void CrossProduct(double* left, double* right, double* result);
+		/*
 		* v1 dot v2, calculates the dot product (in cartesian coordinates) of two vectors.
 		*
 		* @param v1, a pointer to the first array representing a vector.

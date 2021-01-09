@@ -5,6 +5,5 @@
 
 #include <iostream>
 
-#include "NewtonsMethod.h"
+#include "Optimization/NewtonsMethod.h"
 
-// TODO: Reference additional headers your program requires here.
