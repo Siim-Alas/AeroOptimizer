@@ -46,14 +46,14 @@ void AeroOptimizer::Optimization::NewtonsMethod::FindRootND(
 }
 
 void AeroOptimizer::Optimization::NewtonsMethod::FindRootND(
-	AeroOptimizer::VectorToVectorFunction f,
-	AeroOptimizer::VectorToMatrixFunction jInverse,
+	VectorToVectorFunction f, 
+	VectorToMatrixFunction jInverse, 
 	double* x, 
 	int n, 
 	int iterations)
 {
 	double* fBuf = new double[n];
-	double* jInvBuf = new double[n*n];
+	double* jInvBuf = new double[n * n];
 	double* rBuf = new double[n];
 	for (int i = 0; i < iterations; i++)
 	{

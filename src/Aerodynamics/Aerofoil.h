@@ -26,6 +26,7 @@ namespace AeroOptimizer
 			* in the linear range of angles of attack (units: 1 / Rad).
 			*/
 			double ClminD;
+			Aerofoil(double cd0, double cl0, double cla, double clmind);
 		};
 	}
 }

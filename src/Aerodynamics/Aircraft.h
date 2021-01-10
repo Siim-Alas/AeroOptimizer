@@ -1,6 +1,8 @@
 
 #pragma once
 
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <vector>
 
 #include "Wing.h"
@@ -13,22 +15,23 @@ namespace AeroOptimizer
 		class Aircraft
 		{
 		private:
-			double _centreOfMass[3];
-			double _CMa;
-			double _cRef;
-			double _mass;
-			std::vector<PointMass> _pointMasses;
-			double _SRef;
-			std::vector<Wing> _wings;
+			static double _centreOfMass[3];
+			static double _CMa;
+			static double _cRef;
+			static double _mass;
+			static std::vector<PointMass> _pointMasses;
+			static double _SRef;
+			static std::vector<Wing> _wings;
 
-			void CalculateCentreOfMass();
-			void NudgeCentreOfMassAndMass(PointMass* pointMass);
+			static void CalculateCentreOfMass();
+			static void NudgeCentreOfMassAndMass(PointMass* pointMass);
 		public:
-			Aircraft(double cRef,double requiredCMa, double SRef);
-			~Aircraft();
-			void AddPointMass(PointMass* pointMass);
-			void AddWing(Wing* wing);
-			double CMaEquationRHS(double distanceBetweenForeAndAftWing);
+			static void Init(double cRef,double requiredCMa, double SRef);
+			static void AddPointMass(PointMass* pointMass);
+			static void AddWing(Wing* wing);
+			static double CMaEquationRHS(double distanceBetweenForeAndAftWing);
+			static double CMaEquationRHSDerivativesReciprocal(double distanceBetweenForeAndAftWing);
+			static void Dispose();
 		};
 	}
 }
