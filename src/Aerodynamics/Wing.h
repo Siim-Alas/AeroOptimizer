@@ -25,7 +25,7 @@ namespace AeroOptimizer
 
 			static double CalculateOswaldsSpanEfficiency(double ar);
 			double CDa(double a);
-			Wing(Aerofoil* aerofoil, double aoi, double ar, double s);
+			Wing(const Aerofoil &aerofoil, double aoi, double ar, double s);
 			~Wing();
 		};
 	}

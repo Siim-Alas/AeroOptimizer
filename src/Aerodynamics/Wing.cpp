@@ -15,13 +15,13 @@ double AeroOptimizer::Aerodynamics::Wing::CDa(double a)
 	return 2 * CLa * k * (a * CLa * CL0 - CLminD);
 }
 
-AeroOptimizer::Aerodynamics::Wing::Wing(Aerofoil* aerofoil, double aoi, double ar, double s)
+AeroOptimizer::Aerodynamics::Wing::Wing(const Aerofoil &aerofoil, double aoi, double ar, double s)
 {
 	AOI = aoi;
 	AR = ar;
-	CL0 = aerofoil->Cl0;
-	CLa = aerofoil->Cla;
-	CLminD = aerofoil->ClminD;
+	CL0 = aerofoil.Cl0;
+	CLa = aerofoil.Cla;
+	CLminD = aerofoil.ClminD;
 	e_oswald = CalculateOswaldsSpanEfficiency(AR);
 	k = 1 / (M_PI * AR * e_oswald);
 	S = s;

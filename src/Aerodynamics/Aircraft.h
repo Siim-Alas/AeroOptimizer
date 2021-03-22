@@ -24,11 +24,11 @@ namespace AeroOptimizer
 			static std::vector<Wing> _wings;
 
 			static void CalculateCentreOfMass();
-			static void NudgeCentreOfMassAndMass(PointMass* pointMass);
+			static void NudgeCentreOfMassAndMass(const PointMass &pointMass);
 		public:
 			static void Init(double cRef,double requiredCMa, double SRef);
-			static void AddPointMass(PointMass* pointMass);
-			static void AddWing(Wing* wing);
+			static void AddPointMass(const PointMass &pointMass);
+			static void AddWing(const Wing &wing);
 			static double CMaEquationRHS(double distanceBetweenForeAndAftWing);
 			static double CMaEquationRHSDerivativesReciprocal(double distanceBetweenForeAndAftWing);
 			static void Dispose();

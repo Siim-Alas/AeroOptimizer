@@ -42,17 +42,17 @@ void AeroOptimizer::Aerodynamics::Aircraft::CalculateCentreOfMass()
 	}
 }
 
-void AeroOptimizer::Aerodynamics::Aircraft::NudgeCentreOfMassAndMass(PointMass* pointMass)
+void AeroOptimizer::Aerodynamics::Aircraft::NudgeCentreOfMassAndMass(const PointMass &pointMass)
 {
 	for (int i = 0; i < 3; i++)
 	{
 		// COM = ((r_0*m_0 + r_0*m_1 + ... + (pm.r*pm.mass)) / _mass) * (_mass / (_mass + mass)) =
 		// = (r_0*m_0 + r_0*m_1 + ... + (pm.r*pm.mass)) / (_mass + mass)
 		// Where pm is the point mass to be added
-		_centreOfMass[i] += ((pointMass->r[i] * pointMass->mass) / _mass);
-		_centreOfMass[i] *= (_mass / (_mass + pointMass->mass));
+		_centreOfMass[i] += ((pointMass.r[i] * pointMass.mass) / _mass);
+		_centreOfMass[i] *= (_mass / (_mass + pointMass.mass));
 	}
-	_mass += pointMass->mass;
+	_mass += pointMass.mass;
 }
 
 void AeroOptimizer::Aerodynamics::Aircraft::Init(double cRef, double requiredCMa, double SRef)
@@ -67,15 +67,15 @@ void AeroOptimizer::Aerodynamics::Aircraft::Dispose()
 	// delete[] _centreOfMass;
 }
 
-void AeroOptimizer::Aerodynamics::Aircraft::AddPointMass(PointMass* pointMass)
+void AeroOptimizer::Aerodynamics::Aircraft::AddPointMass(const PointMass &pointMass)
 {
-	_pointMasses.push_back(*pointMass);
+	_pointMasses.push_back(pointMass);
 	NudgeCentreOfMassAndMass(pointMass);
 }
 
-void AeroOptimizer::Aerodynamics::Aircraft::AddWing(Wing* wing)
+void AeroOptimizer::Aerodynamics::Aircraft::AddWing(const Wing &wing)
 {
-	_wings.push_back(*wing);
+	_wings.push_back(wing);
 	NudgeCentreOfMassAndMass(wing);
 }
 
@@ -86,10 +86,10 @@ double AeroOptimizer::Aerodynamics::Aircraft::CMaEquationRHS(double distanceBetw
 
 	// dM / da normalized, by dividing by 0.5 * rho * V^2 * SRef
 	double normalizeddMda = _CMa * _cRef;
-	double* riMinusCOM = new double[3]{ 0, 0, 0 };
-	double* dFda = new double[3]{ 0, 0, 0 };
-	double* tempBuf = new double[3]{ 0, 0, 0, };
-	double* sumBuf = new double[3]{ 0, 0, 0 };
+	double riMinusCOM[3] = { 0, 0, 0 };
+	double dFda[3] = { 0, 0, 0 };
+	double tempBuf[3] = { 0, 0, 0 };
+	double sumBuf[3] = { 0, 0, 0 };
 
 	double a = 0;
 
@@ -108,12 +108,6 @@ double AeroOptimizer::Aerodynamics::Aircraft::CMaEquationRHS(double distanceBetw
 	}
 
 	double result = normalizeddMda - sumBuf[1];
-
-	delete[] riMinusCOM;
-	delete[] dFda;
-	delete[] tempBuf;
-	delete[] sumBuf;
-
 	return result;
 }
 
