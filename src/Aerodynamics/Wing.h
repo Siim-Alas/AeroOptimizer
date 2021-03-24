@@ -15,6 +15,7 @@ namespace AeroOptimizer
 		public:
 			double AOI = 0;
 			double AR = 0;
+			double CDmin = 0;
 			double CL0 = 0;
 			double CLa = 0;
 			double CLminD = 0;
@@ -26,7 +27,9 @@ namespace AeroOptimizer
 			double S = 0;
 
 			inline static double CalculateOswaldsSpanEfficiency(double ar);
+			double CD(double a);
 			double CDa(double a);
+			double CL(double a);
 			Wing(const Aerofoil &aerofoil, double aoi, double ar, double s);
 			~Wing();
 		};

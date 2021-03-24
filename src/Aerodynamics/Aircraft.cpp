@@ -96,9 +96,21 @@ double AeroOptimizer::Aerodynamics::Aircraft::CMaEquationRHS(double distanceBetw
 	for (int i = 0; i < _wings.size(); i++)
 	{
 		AeroOptimizer::LinearAlgebra::SubtractVectors(_wings[i].r, _centreOfMass, riMinusCOM, 3);
-		// dF / da = (Cla * cos(a) + Cda * sin(a))(-k) + (Cla * sin(a) + Cda * cos(a))(-i)
-		dFda[0] = -1 * (_wings[i].CLa * std::sin(a) + _wings[i].CDa(a) * std::cos(a));
-		dFda[2] = -1 * (_wings[i].CLa * std::cos(a) + _wings[i].CDa(a) * std::sin(a));
+
+		//         |cos(a)  sin(a)| |-CD(a)|
+		// CF(a) = |              | |      | , from which
+		//         |-sin(a) cos(a)| |-CL(a)|
+
+		//			  |-sin(a)  cos(a)| |-CD(a)|   |cos(a)  sin(a)| |-dCD / da|
+		// dCF / da = |               | |      | + |              | |         |
+		//            |-cos(a) -sin(a)| |-CL(a)|   |-sin(a) cos(a)| |-dCL / da|
+
+		dFda[0] = std::sin(a) * _wings[i].CD(a) - std::cos(a) * _wings[i].CL(a) \
+			- std::cos(a) * _wings[i].CDa(a) + std::sin(a) * _wings[i].CLa;
+
+		dFda[2] = std::cos(a) * _wings[i].CD(a) + std::sin(a) * _wings[i].CL(a) \
+			+ std::sin(a) * _wings[i].CDa(a) - std::cos(a) * _wings[i].CLa;
+
 		AeroOptimizer::LinearAlgebra::CrossProduct(riMinusCOM, dFda, tempBuf);
 		AeroOptimizer::LinearAlgebra::AddVectors(sumBuf, tempBuf, sumBuf, 3);
 
