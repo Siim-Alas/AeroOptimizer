@@ -19,10 +19,10 @@ int main()
 	AeroOptimizer::Aerodynamics::Wing aftWing(naca2421, 0.75 * M_PI / 180, 8, 0.18);
 	aftWing.mass = 0.5;
 	aftWing.massOffset[0] = -0.04;
-	aftWing.r[2] = 0.095;
+	aftWing.r[2] = 0.13;
 	AeroOptimizer::Aerodynamics::Aircraft::AddWing(aftWing);
 
-	double startingDistance = 0.25;
+	double startingDistance = 0.5;
 	double optimizedDistance = AeroOptimizer::Optimization::NewtonsMethod::FindRoot1D(
 		&AeroOptimizer::Aerodynamics::Aircraft::CMaEquationRHS,
 		&AeroOptimizer::Aerodynamics::Aircraft::CMaEquationRHSDerivativesReciprocal,
