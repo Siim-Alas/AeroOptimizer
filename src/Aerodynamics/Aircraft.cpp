@@ -116,7 +116,7 @@ double AeroOptimizer::Aerodynamics::Aircraft::CMaEquationRHS(double distanceBetw
 
 		// This assumes that each consecutive member of wings is behind and thus affected previous one.
 		// (General Aviation Design: Applied Methods and Procedures by Snorry Gudmundsson, pg. 467)
-		a -= 2 * (a * _wings[i].CLa + _wings[i].CL0) / (M_PI * _wings[i].AR);
+		a -= 2 * _wings[i].CL(a) / (M_PI * _wings[i].AR);
 	}
 
 	double result = normalizeddMda - sumBuf[1];

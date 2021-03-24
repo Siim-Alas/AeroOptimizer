@@ -22,7 +22,7 @@ int main()
 	aftWing.r[2] = 0.095;
 	AeroOptimizer::Aerodynamics::Aircraft::AddWing(aftWing);
 
-	double startingDistance = 0.5;
+	double startingDistance = 0.25;
 	double optimizedDistance = AeroOptimizer::Optimization::NewtonsMethod::FindRoot1D(
 		&AeroOptimizer::Aerodynamics::Aircraft::CMaEquationRHS,
 		&AeroOptimizer::Aerodynamics::Aircraft::CMaEquationRHSDerivativesReciprocal,

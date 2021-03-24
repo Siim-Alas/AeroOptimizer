@@ -28,10 +28,10 @@ double AeroOptimizer::Optimization::NewtonsMethod::FindRoot1D(
 	return x;
 }
 
+template <int n>
 void AeroOptimizer::Optimization::NewtonsMethod::FindRootND(
 	VectorToVectorFunction jInverseMultF, 
-	double* x, 
-	int n, 
+	double* x,
 	int iterations)
 {
 	double* rBuf = new double[n];
@@ -45,16 +45,17 @@ void AeroOptimizer::Optimization::NewtonsMethod::FindRootND(
 	delete[] rBuf;
 }
 
+template <int n>
 void AeroOptimizer::Optimization::NewtonsMethod::FindRootND(
 	VectorToVectorFunction f, 
 	VectorToMatrixFunction jInverse, 
 	double* x, 
-	int n, 
 	int iterations)
 {
-	double* fBuf = new double[n];
-	double* jInvBuf = new double[n * n];
-	double* rBuf = new double[n];
+	double fBuf[n];
+	double jInvBuf[n * n];
+	double rBuf[n];
+
 	for (int i = 0; i < iterations; i++)
 	{
 		f(x, fBuf, n);
@@ -64,7 +65,4 @@ void AeroOptimizer::Optimization::NewtonsMethod::FindRootND(
 		LinearAlgebra::MatrixVectorMult(jInvBuf, fBuf, rBuf, n);
 		LinearAlgebra::SubtractVectors(x, rBuf, x, n);
 	}
-	delete[] fBuf;
-	delete[] jInvBuf;
-	delete[] rBuf;
 }
