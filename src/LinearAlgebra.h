@@ -3,9 +3,8 @@
 
 namespace AeroOptimizer
 {
-	class LinearAlgebra
+	namespace LinearAlgebra
 	{
-	public:
 		/*
 		* result = left + right, adds the left and right vectors.
 		*
@@ -14,7 +13,7 @@ namespace AeroOptimizer
 		* @param result, the array where the resulting vector gets saved.
 		* @param n, the amount of elements in each vector (their dimension).
 		*/
-		static void AddVectors(double* left, double* right, double* result, int n);
+		void AddVectors(const double* left, const double* right, double* result, int n);
 		/*
 		* result = left x right, computes cartesian 3D the cross product of the left and right vector.
 		*
@@ -22,7 +21,7 @@ namespace AeroOptimizer
 		* @param right, the array of length 3 representing the right vector.
 		* @param result, the array of length 3 where the results will get written.
 		*/
-		static void CrossProduct(double* left, double* right, double* result);
+		void CrossProduct(const double* left, const double* right, double* result);
 		/*
 		* v1 dot v2, calculates the dot product (in cartesian coordinates) of two vectors.
 		*
@@ -32,7 +31,7 @@ namespace AeroOptimizer
 		*
 		* @return The dot product of the two vectors.
 		*/
-		static double DotProduct(double* v1, double* v2, int n);
+		double DotProduct(const double* v1, const double* v2, int n);
 		/*
 		* Mv, multiplies a square matrix and a vector together. This assumes that both the matrix
 		* and vector have the specified number of dimensions.
@@ -44,7 +43,7 @@ namespace AeroOptimizer
 		*
 		* @return A pointer to the resulting vector.
 		*/
-		static void MatrixVectorMult(double* M, double* v, double* result, int n);
+		void MatrixVectorMult(const double* M, const double* v, double* result, int n);
 		/*
 		* result = left - right, subtracts the right vector from the left one.
 		* 
@@ -53,6 +52,6 @@ namespace AeroOptimizer
 		* @param result, the array where the resulting vector gets stored.
 		* @param n, the amount of elements in each vector (their dimension).
 		*/
-		static void SubtractVectors(double* left, double* right, double* result, int n);
+		void SubtractVectors(const double* left, const double* right, double* result, int n);
 	};
 }

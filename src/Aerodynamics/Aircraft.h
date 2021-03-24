@@ -5,6 +5,7 @@
 #include <cmath>
 #include <vector>
 
+#include "PointMass.h"
 #include "Wing.h"
 #include "../LinearAlgebra.h"
 
@@ -24,14 +25,13 @@ namespace AeroOptimizer
 			static std::vector<Wing> _wings;
 
 			static void CalculateCentreOfMass();
-			static void NudgeCentreOfMassAndMass(const PointMass &pointMass);
+			static void NudgeCentreOfMassAndMass(const double* r, double mass);
 		public:
 			static void Init(double cRef,double requiredCMa, double SRef);
 			static void AddPointMass(const PointMass &pointMass);
 			static void AddWing(const Wing &wing);
 			static double CMaEquationRHS(double distanceBetweenForeAndAftWing);
 			static double CMaEquationRHSDerivativesReciprocal(double distanceBetweenForeAndAftWing);
-			static void Dispose();
 		};
 	}
 }

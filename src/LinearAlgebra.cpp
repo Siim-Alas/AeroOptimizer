@@ -1,7 +1,7 @@
 
 #include "LinearAlgebra.h"
 
-void AeroOptimizer::LinearAlgebra::AddVectors(double* left, double* right, double* result, int n)
+void AeroOptimizer::LinearAlgebra::AddVectors(const double* left, const double* right, double* result, int n)
 {
 	for (int i = 0; i < n; i++)
 	{
@@ -9,14 +9,14 @@ void AeroOptimizer::LinearAlgebra::AddVectors(double* left, double* right, doubl
 	}
 }
 
-void AeroOptimizer::LinearAlgebra::CrossProduct(double* left, double* right, double* result)
+void AeroOptimizer::LinearAlgebra::CrossProduct(const double* left, const double* right, double* result)
 {
 	result[0] = (left[1] * right[2]) - (left[2] * right[1]);
 	result[1] = (left[2] * right[0]) - (left[0] * right[2]);
 	result[2] = (left[0] * right[1]) - (left[1] * right[0]);
 }
 
-double AeroOptimizer::LinearAlgebra::DotProduct(double* v1, double* v2, int n)
+double AeroOptimizer::LinearAlgebra::DotProduct(const double* v1, const double* v2, int n)
 {
 	double dotProd = 0;
 	for (int i = 0; i < n; i++)
@@ -26,7 +26,7 @@ double AeroOptimizer::LinearAlgebra::DotProduct(double* v1, double* v2, int n)
 	return dotProd;
 }
 
-void AeroOptimizer::LinearAlgebra::MatrixVectorMult(double* M, double* v, double* result, int n)
+void AeroOptimizer::LinearAlgebra::MatrixVectorMult(const double* M, const double* v, double* result, int n)
 {
 	double sum;
 	for (int i = 0; i < n; i++)
@@ -40,7 +40,7 @@ void AeroOptimizer::LinearAlgebra::MatrixVectorMult(double* M, double* v, double
 	}
 }
 
-void AeroOptimizer::LinearAlgebra::SubtractVectors(double* left, double* right, double* result, int n)
+void AeroOptimizer::LinearAlgebra::SubtractVectors(const double* left, const double* right, double* result, int n)
 {
 	for (int i = 0; i < n; i++)
 	{

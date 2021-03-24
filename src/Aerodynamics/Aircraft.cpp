@@ -1,7 +1,7 @@
 
 #include "Aircraft.h"
 
-double AeroOptimizer::Aerodynamics::Aircraft::_centreOfMass[] = { 0, 0, 0 };
+double AeroOptimizer::Aerodynamics::Aircraft::_centreOfMass[3] = { 0, 0, 0 };
 double AeroOptimizer::Aerodynamics::Aircraft::_CMa = 0;
 double AeroOptimizer::Aerodynamics::Aircraft::_cRef = 0;
 double AeroOptimizer::Aerodynamics::Aircraft::_mass = 0;
@@ -12,10 +12,11 @@ std::vector<AeroOptimizer::Aerodynamics::Wing> AeroOptimizer::Aerodynamics::Airc
 void AeroOptimizer::Aerodynamics::Aircraft::CalculateCentreOfMass()
 {
 	_mass = 0;
-	for (int i = 0; i < 3; i++)
-	{
-		_centreOfMass[i] = 0;
-	}
+
+	_centreOfMass[0] = 0;
+	_centreOfMass[1] = 0;
+	_centreOfMass[2] = 0;
+
 	for (int i = 0; i < _pointMasses.size(); i++)
 	{
 		_mass += _pointMasses[i].mass;
@@ -27,9 +28,11 @@ void AeroOptimizer::Aerodynamics::Aircraft::CalculateCentreOfMass()
 	for (int i = 0; i < _wings.size(); i++)
 	{
 		_mass += _wings[i].mass;
+		double wingCOM[3];
 		for (int j = 0; j < 3; j++)
 		{
-			_centreOfMass[j] += _wings[i].mass * _wings[i].r[j];
+			AeroOptimizer::LinearAlgebra::AddVectors(_wings[i].r, _wings[i].massOffset, wingCOM, 3);
+			_centreOfMass[j] += _wings[i].mass * wingCOM[j];
 		}
 	}
 	if (_mass == 0)
@@ -42,17 +45,17 @@ void AeroOptimizer::Aerodynamics::Aircraft::CalculateCentreOfMass()
 	}
 }
 
-void AeroOptimizer::Aerodynamics::Aircraft::NudgeCentreOfMassAndMass(const PointMass &pointMass)
+void AeroOptimizer::Aerodynamics::Aircraft::NudgeCentreOfMassAndMass(const double* r, double mass)
 {
 	for (int i = 0; i < 3; i++)
 	{
 		// COM = ((r_0*m_0 + r_0*m_1 + ... + (pm.r*pm.mass)) / _mass) * (_mass / (_mass + mass)) =
 		// = (r_0*m_0 + r_0*m_1 + ... + (pm.r*pm.mass)) / (_mass + mass)
 		// Where pm is the point mass to be added
-		_centreOfMass[i] += ((pointMass.r[i] * pointMass.mass) / _mass);
-		_centreOfMass[i] *= (_mass / (_mass + pointMass.mass));
+		_centreOfMass[i] += ((r[i] * mass) / _mass);
+		_centreOfMass[i] *= (_mass / (_mass + mass));
 	}
-	_mass += pointMass.mass;
+	_mass += mass;
 }
 
 void AeroOptimizer::Aerodynamics::Aircraft::Init(double cRef, double requiredCMa, double SRef)
@@ -62,21 +65,18 @@ void AeroOptimizer::Aerodynamics::Aircraft::Init(double cRef, double requiredCMa
 	_SRef = SRef;
 }
 
-void AeroOptimizer::Aerodynamics::Aircraft::Dispose()
-{
-	// delete[] _centreOfMass;
-}
-
 void AeroOptimizer::Aerodynamics::Aircraft::AddPointMass(const PointMass &pointMass)
 {
 	_pointMasses.push_back(pointMass);
-	NudgeCentreOfMassAndMass(pointMass);
+	NudgeCentreOfMassAndMass(pointMass.r, pointMass.mass);
 }
 
 void AeroOptimizer::Aerodynamics::Aircraft::AddWing(const Wing &wing)
 {
 	_wings.push_back(wing);
-	NudgeCentreOfMassAndMass(wing);
+	double wingCOM[3];
+	AeroOptimizer::LinearAlgebra::AddVectors(wing.r, wing.massOffset, wingCOM, 3);
+	NudgeCentreOfMassAndMass(wingCOM, wing.mass);
 }
 
 double AeroOptimizer::Aerodynamics::Aircraft::CMaEquationRHS(double distanceBetweenForeAndAftWing)

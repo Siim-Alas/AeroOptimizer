@@ -1,7 +1,7 @@
 
 #include "Wing.h"
 
-double AeroOptimizer::Aerodynamics::Wing::CalculateOswaldsSpanEfficiency(double ar)
+inline double AeroOptimizer::Aerodynamics::Wing::CalculateOswaldsSpanEfficiency(double ar)
 {
 	// This uses Raymer's estimation for straight wings: e_oswald = 1.78(1 - 0.045*AR)^0.68 - 0.64
 	return 1.78 * std::pow(1 - (0.045 * ar), 0.68) - 0.64;

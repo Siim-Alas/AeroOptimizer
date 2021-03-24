@@ -4,7 +4,7 @@
 namespace AeroOptimizer
 {
 	/*
-	* F: R -> R
+	* F: R -> R,
 	*
 	* A type representing scalar-valued single-variable functions.
 	*

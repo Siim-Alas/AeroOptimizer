@@ -5,25 +5,27 @@
 #include <cmath>
 
 #include "Aerofoil.h"
-#include "PointMass.h"
 
 namespace AeroOptimizer
 {
 	namespace Aerodynamics
 	{
-		class Wing : public PointMass
+		class Wing
 		{
 		public:
-			double AOI;
-			double AR;
-			double CL0;
-			double CLa;
-			double CLminD;
-			double e_oswald;
-			double k;
-			double S;
+			double AOI = 0;
+			double AR = 0;
+			double CL0 = 0;
+			double CLa = 0;
+			double CLminD = 0;
+			double e_oswald = 0;
+			double k = 0;
+			double mass = 0;
+			double massOffset[3]{ 0, 0, 0 };
+			double r[3]{ 0, 0, 0 };
+			double S = 0;
 
-			static double CalculateOswaldsSpanEfficiency(double ar);
+			inline static double CalculateOswaldsSpanEfficiency(double ar);
 			double CDa(double a);
 			Wing(const Aerofoil &aerofoil, double aoi, double ar, double s);
 			~Wing();
