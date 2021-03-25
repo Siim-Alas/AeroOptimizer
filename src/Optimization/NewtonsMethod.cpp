@@ -34,7 +34,7 @@ void AeroOptimizer::Optimization::NewtonsMethod::FindRootND(
 	double* x,
 	int iterations)
 {
-	double* rBuf = new double[n];
+	double rBuf[n];
 	for (int i = 0; i < iterations; i++)
 	{
 		jInverseMultF(x, rBuf, n);
@@ -42,7 +42,6 @@ void AeroOptimizer::Optimization::NewtonsMethod::FindRootND(
 		// x_(n + 1) = x_n - (J^-1(x_n) * F(x_n))
 		LinearAlgebra::SubtractVectors(x, rBuf, x, n);
 	}
-	delete[] rBuf;
 }
 
 template <int n>
